@@ -40,7 +40,7 @@ pipeline {
                         error('No Chrome/Chromium binary found. Install google-chrome-stable or chromium-browser on the agent.')
                     }
                     echo "Chrome: ${env.CHROME_PATH}"
-                    sh "${env.CHROME_PATH} --version"
+                    sh "\"${env.CHROME_PATH}\" --version"
                 }
             }
         }
