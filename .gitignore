@@ -1,0 +1,4 @@
+node_modules/
+.lighthouseci/
+lighthouse-reports/
+*.tgz
