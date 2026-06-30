@@ -20,9 +20,11 @@ pipeline {
                     /usr/bin/google-chrome \
                     /usr/bin/chromium-browser \
                     /usr/bin/chromium \
-                    /snap/bin/chromium; do
+                    /snap/bin/chromium \
+                    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"; do
                     [ -x "$candidate" ] && echo "$candidate" && break
                 done
+                exit 0
             ''',
             returnStdout: true
         ).trim()
@@ -87,7 +89,13 @@ pipeline {
 
     post {
         always {
-            sh 'rm -rf lighthouse-reports || true'
+            script {
+                try {
+                    sh 'rm -rf lighthouse-reports || true'
+                } catch (e) {
+                    echo "Cleanup skipped: no workspace context (${e.message})"
+                }
+            }
         }
         success {
             echo 'All Lighthouse thresholds passed.'
